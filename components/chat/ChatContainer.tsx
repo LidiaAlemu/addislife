@@ -12,21 +12,44 @@ interface ChatContainerProps {
   initialAction?: string;
 }
 
-const actionPrompts: Record<string, string> = {
-  documents: "I need help renewing my documents",
-  clinic: "I need to find a clinic nearby",
-  transport: "I want to compare transport options to get home",
-  water: "I need to order water delivery",
-  cafe: "I want to find a work cafe with WiFi",
+const actionPrompts: Record<string, Record<string, string>> = {
+  documents: {
+    en: "I need help renewing my documents",
+    am: "ሰነዶቼን ለማደስ እርዳታ እፈልጋለሁ",
+    om: "Sanadoota koo haaromsuu nan barbaada",
+  },
+  clinic: {
+    en: "I need to find a clinic nearby",
+    am: "የቅርብ ክሊኒክ መፈለግ እፈልጋለሁ",
+    om: "Kilinika naannoo koo barbaadaa jira",
+  },
+  transport: {
+    en: "I want to compare transport options to get home",
+    am: "ወደ ቤት ለመሄድ የትራንስፖርት አማራጮችን ማወዳደር እፈልጋለሁ",
+    om: "Filannoo geejjibaa mana gahuu madaaluu barbaada",
+  },
+  water: {
+    en: "I need to order water delivery",
+    am: "ውሃ ማዘዝ እፈልጋለሁ",
+    om: "Bishaan ajajuu nan barbaada",
+  },
+  cafe: {
+    en: "I want to find a work cafe with WiFi",
+    am: "WiFi ያለው የስራ ካፌ መፈለግ እፈልጋለሁ",
+    om: "Kaafee hojii WiFi qabu barbaadaa jira",
+  },
 };
 
 export function ChatContainer({ initialAction }: ChatContainerProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat({
+  const { messages, isLoading, append } = useChat({
     api: "/api/chat",
+    body: {
+      language, // Send current language with every request
+    },
   });
 
   const scrollToBottom = () => {
@@ -41,21 +64,13 @@ export function ChatContainer({ initialAction }: ChatContainerProps) {
   useEffect(() => {
     if (initialAction && actionPrompts[initialAction] && !initializedRef.current) {
       initializedRef.current = true;
+      const prompt = actionPrompts[initialAction][language] || actionPrompts[initialAction].en;
       append({
         role: "user",
-        content: actionPrompts[initialAction],
+        content: prompt,
       });
     }
-  }, [initialAction, append]);
-
-  const handleSendMessage = (content: string) => {
-    handleInputChange({ target: { value: content } } as React.ChangeEvent<HTMLInputElement>);
-    // Small delay to ensure state updates
-    setTimeout(() => {
-      const form = document.createElement("form");
-      handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>);
-    }, 0);
-  };
+  }, [initialAction, append, language]);
 
   const onSubmit = (content: string) => {
     append({

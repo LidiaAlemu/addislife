@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
@@ -42,15 +43,24 @@ const actionPrompts: Record<string, Record<string, string>> = {
 
 export function ChatContainer({ initialAction }: ChatContainerProps) {
   const { t, language } = useLanguage();
+  const languageRef = useRef(language);
+  languageRef.current = language;
+
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/chat",
+        body: () => ({ language: languageRef.current }),
+      }),
+    [],
+  );
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
-  const { messages, isLoading, append } = useChat({
-    api: "/api/chat",
-    body: {
-      language, // Send current language with every request
-    },
-  });
+  const { messages, sendMessage, status } = useChat({ transport });
+
+  const isLoading = status === "submitted" || status === "streaming";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -65,18 +75,12 @@ export function ChatContainer({ initialAction }: ChatContainerProps) {
     if (initialAction && actionPrompts[initialAction] && !initializedRef.current) {
       initializedRef.current = true;
       const prompt = actionPrompts[initialAction][language] || actionPrompts[initialAction].en;
-      append({
-        role: "user",
-        content: prompt,
-      });
+      sendMessage({ text: prompt });
     }
-  }, [initialAction, append, language]);
+  }, [initialAction, sendMessage, language]);
 
   const onSubmit = (content: string) => {
-    append({
-      role: "user",
-      content,
-    });
+    sendMessage({ text: content });
   };
 
   return (
@@ -108,15 +112,7 @@ export function ChatContainer({ initialAction }: ChatContainerProps) {
           </div>
         )}
         {messages.map((message) => (
-          <MessageBubble
-            key={message.id}
-            message={{
-              id: message.id,
-              role: message.role as "user" | "assistant",
-              content: message.content,
-              timestamp: message.createdAt ?? new Date(),
-            }}
-          />
+          <MessageBubble key={message.id} message={message} />
         ))}
         {isLoading && <TypingIndicator />}
         <div ref={messagesEndRef} />

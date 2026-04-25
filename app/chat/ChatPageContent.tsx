@@ -5,7 +5,7 @@ import { ChatContainer } from "@/components/chat/ChatContainer";
 
 export function ChatPageContent() {
   const searchParams = useSearchParams();
-  const action = searchParams.get("action") ?? undefined;
+  const query = searchParams.get("q") ?? undefined;
 
-  return <ChatContainer initialAction={action} />;
+  return <ChatContainer initialQuery={query} />;
 }

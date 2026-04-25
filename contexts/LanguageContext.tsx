@@ -43,42 +43,68 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Navigation
     "nav.home": "Home",
-    "nav.chat": "Chat",
+    "nav.explore": "Explore",
     "nav.tasks": "Tasks",
-    "nav.settings": "Settings",
+    "nav.profile": "Profile",
+
+    // Greetings
+    "greeting.morning": "Good Morning",
+    "greeting.afternoon": "Good Afternoon",
+    "greeting.evening": "Good Evening",
 
     // Home Screen
-    "home.greeting": "Hello! How can I help you today?",
-    "home.categories": "What would you like to do?",
+    "home.subtitle": "How can AddisLife help today?",
+    "home.nearbyEssentials": "Nearby Essentials",
+    "home.trendingInAddis": "Trending in Addis",
+    "home.dailyUtility": "Daily Utility",
 
-    // Categories
-    "category.documents": "Renew Documents",
-    "category.documents.desc": "ID, passport, licenses",
-    "category.clinic": "Find a Clinic",
-    "category.clinic.desc": "Nearby healthcare",
-    "category.transport": "Get Home Fast",
-    "category.transport.desc": "Compare rides",
-    "category.water": "Water Delivery",
-    "category.water.desc": "Order drinking water",
-    "category.cafe": "Find a Work Cafe",
-    "category.cafe.desc": "WiFi & workspace",
+    // Quick Actions
+    "quick.atm": "ATM",
+    "quick.pharmacy": "Pharmacy",
+    "quick.taxi": "Taxi Stand",
+
+    // Trending
+    "trending.workCafes": "Best Work Cafes",
+    "trending.safeRoutes": "Women Safe Routes",
+    "trending.events": "Weekend Events",
+
+    // Utility
+    "utility.sunny": "Sunny",
+    "utility.moderate": "Moderate",
+    "utility.traffic": "Traffic",
+    "utility.stable": "Stable",
+    "utility.power": "Power",
+
+    // Featured Card
+    "featured.backup": "Backup Generator",
+    "featured.openUntil": "Open until",
+    "featured.whyRecommended": "Why recommended for you",
+    "featured.aiMatch": "AI Match",
+    "featured.reserve": "Reserve",
+    "featured.map": "Map",
 
     // Chat
-    "chat.placeholder": "Type your message...",
+    "chat.placeholder": "Ask AddisLife anything...",
     "chat.send": "Send",
     "chat.thinking": "Thinking...",
+    "chat.welcome": "Hello! I'm your AddisLife assistant. How can I help you today?",
 
     // Tasks
     "tasks.title": "Your Tasks",
+    "tasks.subtitle": "Monitor your active requests",
     "tasks.empty": "No active tasks",
+    "tasks.emptyDesc": "Your monitoring tasks will appear here",
     "tasks.status.waiting": "Waiting",
-    "tasks.status.progress": "In Progress",
+    "tasks.status.progress": "Running",
     "tasks.status.completed": "Completed",
     "tasks.status.failed": "Failed",
     "tasks.cancel": "Cancel",
+    "tasks.edit": "Edit Alert",
+    "tasks.checked": "Checked",
+    "tasks.ago": "ago",
 
     // Settings
-    "settings.title": "Settings",
+    "settings.title": "Profile",
     "settings.language": "Language",
     "settings.language.desc": "Choose your preferred language",
     "settings.notifications": "Notifications",
@@ -87,6 +113,8 @@ const translations: Record<Language, Record<string, string>> = {
     "settings.locations.desc": "Home, work, favorites",
     "settings.about": "About AddisLife",
     "settings.version": "Version 1.0.0",
+    "settings.privacy": "Privacy Policy",
+    "settings.help": "Help & Support",
 
     // Common
     "common.loading": "Loading...",
@@ -104,42 +132,68 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Navigation
     "nav.home": "መነሻ",
-    "nav.chat": "ውይይት",
+    "nav.explore": "አስስ",
     "nav.tasks": "ስራዎች",
-    "nav.settings": "ቅንብሮች",
+    "nav.profile": "መገለጫ",
+
+    // Greetings
+    "greeting.morning": "እንደምን አደርክ",
+    "greeting.afternoon": "እንደምን ዋልክ",
+    "greeting.evening": "እንደምን አምሸህ",
 
     // Home Screen
-    "home.greeting": "ሰላም! ዛሬ እንዴት ልርዳዎት?",
-    "home.categories": "ምን ማድረግ ይፈልጋሉ?",
+    "home.subtitle": "AddisLife እንዴት ሊረዳህ ይችላል?",
+    "home.nearbyEssentials": "የቅርብ አገልግሎቶች",
+    "home.trendingInAddis": "በአዲስ ውስጥ ትኩስ",
+    "home.dailyUtility": "ዕለታዊ መረጃ",
 
-    // Categories
-    "category.documents": "ሰነዶች ማደስ",
-    "category.documents.desc": "መታወቂያ፣ ፓስፖርት፣ ፈቃድ",
-    "category.clinic": "ክሊኒክ ፈልግ",
-    "category.clinic.desc": "የቅርብ ጤና ተቋም",
-    "category.transport": "ቤት ድረስ",
-    "category.transport.desc": "ትራንስፖርት አወዳድር",
-    "category.water": "ውሃ ማዘዝ",
-    "category.water.desc": "የመጠጥ ውሃ አገልግሎት",
-    "category.cafe": "ካፌ ፈልግ",
-    "category.cafe.desc": "WiFi እና የስራ ቦታ",
+    // Quick Actions
+    "quick.atm": "ኤቲኤም",
+    "quick.pharmacy": "ፋርማሲ",
+    "quick.taxi": "ታክሲ",
+
+    // Trending
+    "trending.workCafes": "ምርጥ የስራ ካፌዎች",
+    "trending.safeRoutes": "ለሴቶች ደህንነቱ የተጠበቀ መንገድ",
+    "trending.events": "የሳምንት መጨረሻ ዝግጅቶች",
+
+    // Utility
+    "utility.sunny": "ፀሐያማ",
+    "utility.moderate": "መካከለኛ",
+    "utility.traffic": "ትራፊክ",
+    "utility.stable": "የተረጋጋ",
+    "utility.power": "ኤሌክትሪክ",
+
+    // Featured Card
+    "featured.backup": "ተጠባባቂ ጀነሬተር",
+    "featured.openUntil": "ክፍት እስከ",
+    "featured.whyRecommended": "ለምን ለእርስዎ ተመከረ",
+    "featured.aiMatch": "AI ተዛማጅነት",
+    "featured.reserve": "ቦታ ያስይዙ",
+    "featured.map": "ካርታ",
 
     // Chat
-    "chat.placeholder": "መልእክትዎን ይጻፉ...",
+    "chat.placeholder": "ማንኛውንም ነገር ይጠይቁ...",
     "chat.send": "ላክ",
     "chat.thinking": "እያሰብኩ ነው...",
+    "chat.welcome": "ሰላም! እኔ የ AddisLife ረዳትዎ ነኝ። ዛሬ እንዴት ልርዳዎት?",
 
     // Tasks
     "tasks.title": "ስራዎችዎ",
+    "tasks.subtitle": "ንቁ ጥያቄዎችዎን ይከታተሉ",
     "tasks.empty": "ምንም ንቁ ስራዎች የሉም",
+    "tasks.emptyDesc": "የእርስዎ ክትትል ስራዎች እዚህ ይታያሉ",
     "tasks.status.waiting": "በመጠበቅ ላይ",
     "tasks.status.progress": "በሂደት ላይ",
     "tasks.status.completed": "ተጠናቅቋል",
     "tasks.status.failed": "አልተሳካም",
     "tasks.cancel": "ሰርዝ",
+    "tasks.edit": "ማስጠንቀቂያ አስተካክል",
+    "tasks.checked": "ተረጋግጧል",
+    "tasks.ago": "በፊት",
 
     // Settings
-    "settings.title": "ቅንብሮች",
+    "settings.title": "መገለጫ",
     "settings.language": "ቋንቋ",
     "settings.language.desc": "የሚፈልጉትን ቋንቋ ይምረጡ",
     "settings.notifications": "ማሳወቂያዎች",
@@ -148,6 +202,8 @@ const translations: Record<Language, Record<string, string>> = {
     "settings.locations.desc": "ቤት፣ ስራ፣ ተወዳጆች",
     "settings.about": "ስለ አዲስላይፍ",
     "settings.version": "ስሪት 1.0.0",
+    "settings.privacy": "የግላዊነት ፖሊሲ",
+    "settings.help": "እርዳታ እና ድጋፍ",
 
     // Common
     "common.loading": "በመጫን ላይ...",
@@ -165,42 +221,68 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Navigation
     "nav.home": "Mana",
-    "nav.chat": "Haasaa",
+    "nav.explore": "Sakatta'i",
     "nav.tasks": "Hojii",
-    "nav.settings": "Qindaa'ina",
+    "nav.profile": "Profaayilii",
+
+    // Greetings
+    "greeting.morning": "Akkam Bultee",
+    "greeting.afternoon": "Akkam Oolte",
+    "greeting.evening": "Akkam Galgale",
 
     // Home Screen
-    "home.greeting": "Akkam! Har'a maal si gargaaruu?",
-    "home.categories": "Maal gochuu barbaadda?",
+    "home.subtitle": "AddisLife har'a akkam si gargaaruu?",
+    "home.nearbyEssentials": "Tajaajila Dhiyoo",
+    "home.trendingInAddis": "Addis Keessatti",
+    "home.dailyUtility": "Odeeffannoo Guyyaa",
 
-    // Categories
-    "category.documents": "Sanadoota Haaromsi",
-    "category.documents.desc": "Eenyummaa, paaspoortii",
-    "category.clinic": "Kilinika Barbaadi",
-    "category.clinic.desc": "Kunuunsa fayyaa dhiyoo",
-    "category.transport": "Mana Gahi",
-    "category.transport.desc": "Geejjiba madaali",
-    "category.water": "Bishaan Ajaji",
-    "category.water.desc": "Bishaan dhugaatii",
-    "category.cafe": "Kaafee Barbaadi",
-    "category.cafe.desc": "WiFi fi bakka hojii",
+    // Quick Actions
+    "quick.atm": "ATM",
+    "quick.pharmacy": "Farmaasiifi",
+    "quick.taxi": "Taaksii",
+
+    // Trending
+    "trending.workCafes": "Kaafee Hojii",
+    "trending.safeRoutes": "Karaa Nagaa Dubartootaaf",
+    "trending.events": "Sagantaalee Torbee",
+
+    // Utility
+    "utility.sunny": "Biiftuun",
+    "utility.moderate": "Giddu galeessa",
+    "utility.traffic": "Tiraafikaa",
+    "utility.stable": "Tasgabbaa'aa",
+    "utility.power": "Ibsaa",
+
+    // Featured Card
+    "featured.backup": "Jenereetara Duubaa",
+    "featured.openUntil": "Banaa hanga",
+    "featured.whyRecommended": "Maaliif siif gorfame",
+    "featured.aiMatch": "AI Walsimaa",
+    "featured.reserve": "Qabadhu",
+    "featured.map": "Kaartaa",
 
     // Chat
-    "chat.placeholder": "Ergaa kee barreessi...",
+    "chat.placeholder": "AddisLife waa'ee gaafadhaa...",
     "chat.send": "Ergi",
     "chat.thinking": "Yaadaa jira...",
+    "chat.welcome": "Akkam! Ani gargaartuu AddisLife keeti. Har'a akkam si gargaaruu?",
 
     // Tasks
     "tasks.title": "Hojii Kee",
+    "tasks.subtitle": "Gaaffii hojii irra jirtu hordofi",
     "tasks.empty": "Hojii hin jiru",
+    "tasks.emptyDesc": "Hojiiwwan hordoffii kee asitti mul'atu",
     "tasks.status.waiting": "Eegaa jira",
     "tasks.status.progress": "Hojjatamaa jira",
     "tasks.status.completed": "Xummurame",
     "tasks.status.failed": "Hin milkoofne",
     "tasks.cancel": "Haqi",
+    "tasks.edit": "Akeekkachiisa Sirreessi",
+    "tasks.checked": "Ilaalame",
+    "tasks.ago": "dura",
 
     // Settings
-    "settings.title": "Qindaa'ina",
+    "settings.title": "Profaayilii",
     "settings.language": "Afaan",
     "settings.language.desc": "Afaan filadhu",
     "settings.notifications": "Beeksisa",
@@ -209,6 +291,8 @@ const translations: Record<Language, Record<string, string>> = {
     "settings.locations.desc": "Mana, hojii, jaallatamoo",
     "settings.about": "Waa'ee AddisLife",
     "settings.version": "Gosa 1.0.0",
+    "settings.privacy": "Imaammata Dhuunfaa",
+    "settings.help": "Gargaarsa",
 
     // Common
     "common.loading": "Fe'aa jira...",
@@ -222,9 +306,11 @@ const translations: Record<Language, Record<string, string>> = {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("en");
+  const [language, setLanguageState] = useState<Language>("am");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Load saved language preference
     const saved = localStorage.getItem("addislife-language") as Language;
     if (saved && ["en", "am", "om"].includes(saved)) {
@@ -245,6 +331,17 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     },
     [language]
   );
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <LanguageContext.Provider
+        value={{ language: "am", setLanguage, t, languages: LANGUAGES }}
+      >
+        {children}
+      </LanguageContext.Provider>
+    );
+  }
 
   return (
     <LanguageContext.Provider

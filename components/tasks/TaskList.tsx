@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ClipboardList, FileText, Car, Droplets } from "lucide-react";
+import { ClipboardList, Zap, Bell } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { TaskItem, type Task } from "./TaskItem";
 
@@ -9,32 +9,28 @@ import { TaskItem, type Task } from "./TaskItem";
 const initialTasks: Task[] = [
   {
     id: "1",
-    title: "Passport Renewal",
-    description: "Waiting for appointment confirmation at Immigration Office",
-    status: "waiting",
-    createdAt: new Date(Date.now() - 3600000), // 1 hour ago
-    icon: <FileText size={20} />,
+    titleEn: "Power Outage Alert - Bole",
+    titleAm: "በቦሌ የኤሌክትሪክ መቆራረጥ ሲኖር አሳውቀኝ",
+    description: "Monitoring for power outages in your area",
+    descriptionAm: "በአካባቢዎ የኃይል መቆራረጥ እየተከታተለ ነው",
+    status: "progress",
+    lastChecked: "2 mins",
+    icon: <Zap size={20} className="text-amber-500" />,
   },
   {
     id: "2",
-    title: "Ride to Bole",
-    description: "Comparing prices from Ride, Feres, and ZayRide",
-    status: "progress",
-    createdAt: new Date(Date.now() - 300000), // 5 mins ago
-    icon: <Car size={20} />,
-  },
-  {
-    id: "3",
-    title: "Water Delivery",
-    description: "20L order from Aqua Addis - delivered successfully",
-    status: "completed",
-    createdAt: new Date(Date.now() - 86400000), // 1 day ago
-    icon: <Droplets size={20} />,
+    titleEn: "Document Ready Notification",
+    titleAm: "ሰነድ ዝግጁ ሲሆን አሳውቀኝ",
+    description: "Waiting for Immigration Office update",
+    descriptionAm: "ከኢሚግሬሽን ቢሮ ማሻሻያ በመጠበቅ ላይ",
+    status: "waiting",
+    lastChecked: "15 mins",
+    icon: <Bell size={20} className="text-blue-500" />,
   },
 ];
 
 export function TaskList() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   const handleCancel = (taskId: string) => {
@@ -47,19 +43,20 @@ export function TaskList() {
 
   if (tasks.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground">
-          <ClipboardList size={32} />
+      <div className="premium-card p-8 flex flex-col items-center justify-center text-center">
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <ClipboardList size={28} />
         </div>
-        <p className="text-muted-foreground">{t("tasks.empty")}</p>
+        <h3 className="font-semibold text-foreground mb-1">{t("tasks.empty")}</h3>
+        <p className="text-sm text-muted-foreground">{t("tasks.emptyDesc")}</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       {tasks.map((task) => (
-        <TaskItem key={task.id} task={task} onCancel={handleCancel} />
+        <TaskItem key={task.id} task={task} onCancel={handleCancel} language={language} />
       ))}
     </div>
   );

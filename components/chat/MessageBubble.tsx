@@ -1,20 +1,32 @@
 "use client";
 
 import { Sparkles, User } from "lucide-react";
+import type { UIMessage } from "ai";
 
-export interface Message {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  timestamp: Date;
+function getTextFromParts(message: UIMessage): string {
+  if (!message.parts?.length) return "";
+  return message.parts
+    .map((part) => (part.type === "text" ? part.text : ""))
+    .filter(Boolean)
+    .join("\n");
+}
+
+function getDisplayTimestamp(message: UIMessage): Date | null {
+  const created = (message.metadata as { createdAt?: number } | undefined)?.createdAt;
+  if (typeof created === "number") {
+    return new Date(created);
+  }
+  return null;
 }
 
 interface MessageBubbleProps {
-  message: Message;
+  message: UIMessage;
 }
 
 export function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === "user";
+  const text = getTextFromParts(message);
+  const timestamp = getDisplayTimestamp(message);
 
   return (
     <div
@@ -39,14 +51,16 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             : "rounded-bl-md bg-card text-card-foreground shadow-[var(--shadow-card)]"
         }`}
       >
-        <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+        <p className="text-sm leading-relaxed whitespace-pre-wrap">{text}</p>
+        {timestamp && (
         <p
           className={`mt-1 text-xs ${
             isUser ? "text-primary-foreground/70" : "text-muted-foreground"
           }`}
         >
-          {formatTime(message.timestamp)}
+          {formatTime(timestamp)}
         </p>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { streamText, tool } from "ai";
+import { convertToModelMessages, stepCountIs, streamText, tool, UIMessage } from "ai";
 import { google } from "@ai-sdk/google";
 import { z } from "zod";
 
@@ -47,7 +47,7 @@ Current date: ${new Date().toLocaleDateString()}`;
 const localTools = {
   governmentOfficeTool: tool({
     description: "Get information about government offices for document services in Addis Ababa",
-    parameters: z.object({
+    inputSchema: z.object({
       service_type: z.enum(["id", "passport", "license", "birth_certificate", "business_license"]).describe("Type of government service needed"),
       location: z.string().optional().describe("Preferred area in Addis Ababa"),
     }),
@@ -134,7 +134,7 @@ const localTools = {
 
   clinicFinderTool: tool({
     description: "Find clinics and hospitals near a location in Addis Ababa",
-    parameters: z.object({
+    inputSchema: z.object({
       location: z.string().describe("Area or neighborhood in Addis Ababa"),
       specialty: z.string().optional().describe("Medical specialty needed (e.g., dental, pediatric, emergency)"),
       open_now: z.boolean().optional().describe("Filter to only show currently open facilities"),
@@ -228,7 +228,7 @@ const localTools = {
 
   transportComparisonTool: tool({
     description: "Compare transport options (rideshare apps vs minibus) between two locations in Addis Ababa",
-    parameters: z.object({
+    inputSchema: z.object({
       origin: z.string().describe("Starting location/area"),
       destination: z.string().describe("Destination location/area"),
       preference: z.enum(["cheapest", "fastest", "comfort"]).optional().describe("User's preference for transport"),
@@ -311,7 +311,7 @@ const localTools = {
 
   waterDeliveryTool: tool({
     description: "Order drinking water delivery to an address in Addis Ababa",
-    parameters: z.object({
+    inputSchema: z.object({
       address: z.string().describe("Delivery address"),
       litres: z.number().describe("Amount of water needed in liters"),
     }),
@@ -363,7 +363,7 @@ const localTools = {
 
   workCafeTool: tool({
     description: "Find work-friendly cafes with WiFi and workspace in Addis Ababa",
-    parameters: z.object({
+    inputSchema: z.object({
       area: z.string().describe("Preferred area in Addis Ababa"),
       requires_generator: z.boolean().optional().describe("Must have backup generator for power cuts"),
       min_wifi_mbps: z.number().optional().describe("Minimum WiFi speed required"),
@@ -464,15 +464,18 @@ const localTools = {
 };
 
 export async function POST(request: Request) {
-  const { messages, language = "en" } = await request.json();
+  const { messages, language = "en" } = (await request.json()) as {
+    messages: UIMessage[];
+    language?: string;
+  };
 
   const result = streamText({
     model: google("gemini-2.0-flash"),
     system: getSystemPrompt(language),
-    messages,
+    messages: await convertToModelMessages(messages),
     tools: localTools,
-    maxSteps: 5, // Allow multi-step tool usage
+    stopWhen: stepCountIs(5),
   });
 
-  return result.toDataStreamResponse();
+  return result.toUIMessageStreamResponse();
 }

@@ -6,23 +6,49 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
 import { TypingIndicator } from "./TypingIndicator";
-import { Sparkles, ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Sparkles } from "lucide-react";
 
 interface ChatContainerProps {
-  initialQuery?: string;
+  initialAction?: string;
 }
 
-export function ChatContainer({ initialQuery }: ChatContainerProps) {
+const actionPrompts: Record<string, Record<string, string>> = {
+  documents: {
+    en: "I need help renewing my documents",
+    am: "ሰነዶቼን ለማደስ እርዳታ እፈልጋለሁ",
+    om: "Sanadoota koo haaromsuu nan barbaada",
+  },
+  clinic: {
+    en: "I need to find a clinic nearby",
+    am: "የቅርብ ክሊኒክ መፈለግ እፈልጋለሁ",
+    om: "Kilinika naannoo koo barbaadaa jira",
+  },
+  transport: {
+    en: "I want to compare transport options to get home",
+    am: "ወደ ቤት ለመሄድ የትራንስፖርት አማራጮችን ማወዳደር እፈልጋለሁ",
+    om: "Filannoo geejjibaa mana gahuu madaaluu barbaada",
+  },
+  water: {
+    en: "I need to order water delivery",
+    am: "ውሃ ማዘዝ እፈልጋለሁ",
+    om: "Bishaan ajajuu nan barbaada",
+  },
+  cafe: {
+    en: "I want to find a work cafe with WiFi",
+    am: "WiFi ያለው የስራ ካፌ መፈለግ እፈልጋለሁ",
+    om: "Kaafee hojii WiFi qabu barbaadaa jira",
+  },
+};
+
+export function ChatContainer({ initialAction }: ChatContainerProps) {
   const { t, language } = useLanguage();
-  const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
   const { messages, isLoading, append } = useChat({
     api: "/api/chat",
     body: {
-      language,
+      language, // Send current language with every request
     },
   });
 
@@ -34,16 +60,17 @@ export function ChatContainer({ initialQuery }: ChatContainerProps) {
     scrollToBottom();
   }, [messages, isLoading]);
 
-  // Handle initial query from search or category cards
+  // Handle initial action from category cards
   useEffect(() => {
-    if (initialQuery && !initializedRef.current) {
+    if (initialAction && actionPrompts[initialAction] && !initializedRef.current) {
       initializedRef.current = true;
+      const prompt = actionPrompts[initialAction][language] || actionPrompts[initialAction].en;
       append({
         role: "user",
-        content: initialQuery,
+        content: prompt,
       });
     }
-  }, [initialQuery, append]);
+  }, [initialAction, append, language]);
 
   const onSubmit = (content: string) => {
     append({
@@ -53,35 +80,27 @@ export function ChatContainer({ initialQuery }: ChatContainerProps) {
   };
 
   return (
-    <div className="flex h-full flex-col bg-background">
+    <div className="flex h-full flex-col">
       {/* Header */}
-      <header className="glass flex items-center gap-3 px-4 py-3 sticky top-0 z-10">
-        <button
-          onClick={() => router.back()}
-          className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/50 transition-colors btn-press"
-        >
-          <ChevronLeft size={22} className="text-foreground" />
-        </button>
-        <div className="flex items-center gap-3 flex-1">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-white shadow-button">
-            <Sparkles size={20} />
-          </div>
-          <div>
-            <h1 className="font-semibold text-foreground">{t("app.name")}</h1>
-            <p className="text-xs text-muted-foreground">{t("app.tagline")}</p>
-          </div>
+      <header className="flex items-center gap-3 border-b border-border bg-card px-4 py-3 safe-top">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
+          <Sparkles size={20} />
+        </div>
+        <div>
+          <h1 className="font-semibold text-card-foreground">{t("app.name")}</h1>
+          <p className="text-xs text-muted-foreground">{t("app.tagline")}</p>
         </div>
       </header>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 hide-scrollbar">
+      <div className="flex-1 overflow-y-auto p-4">
         {messages.length === 0 && (
-          <div className="flex h-full flex-col items-center justify-center text-center py-12">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-primary/10 text-primary">
-              <Sparkles size={28} />
+          <div className="flex h-full flex-col items-center justify-center text-center">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Sparkles size={32} />
             </div>
-            <h2 className="text-lg font-bold text-foreground">
-              {t("chat.welcome")}
+            <h2 className="text-lg font-semibold text-foreground">
+              {t("home.greeting")}
             </h2>
             <p className="mt-2 max-w-xs text-sm text-muted-foreground">
               {t("app.tagline")}
@@ -100,13 +119,11 @@ export function ChatContainer({ initialQuery }: ChatContainerProps) {
           />
         ))}
         {isLoading && <TypingIndicator />}
-        <div ref={messagesEndRef} className="h-4" />
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
-      <div className="p-4 pb-6">
-        <ChatInput onSend={onSubmit} disabled={isLoading} />
-      </div>
+      <ChatInput onSend={onSubmit} disabled={isLoading} />
     </div>
   );
 }

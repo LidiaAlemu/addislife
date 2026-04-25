@@ -10,31 +10,23 @@ interface StatusBadgeProps {
 
 const statusConfig: Record<
   TaskStatus,
-  { labelKey: string; dotColor: string; bgColor: string; textColor: string }
+  { labelKey: string; className: string }
 > = {
   waiting: {
     labelKey: "tasks.status.waiting",
-    dotColor: "bg-amber-500",
-    bgColor: "bg-amber-50",
-    textColor: "text-amber-700",
+    className: "bg-warning/20 text-warning-foreground",
   },
   progress: {
     labelKey: "tasks.status.progress",
-    dotColor: "bg-success",
-    bgColor: "bg-green-50",
-    textColor: "text-green-700",
+    className: "bg-primary/20 text-primary",
   },
   completed: {
     labelKey: "tasks.status.completed",
-    dotColor: "bg-blue-500",
-    bgColor: "bg-blue-50",
-    textColor: "text-blue-700",
+    className: "bg-success/20 text-success",
   },
   failed: {
     labelKey: "tasks.status.failed",
-    dotColor: "bg-red-500",
-    bgColor: "bg-red-50",
-    textColor: "text-red-700",
+    className: "bg-destructive/20 text-destructive",
   },
 };
 
@@ -44,9 +36,8 @@ export function StatusBadge({ status }: StatusBadgeProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${config.bgColor} ${config.textColor}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${config.className}`}
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${config.dotColor}`} />
       {t(config.labelKey)}
     </span>
   );

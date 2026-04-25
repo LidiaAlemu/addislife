@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Noto_Sans_Ethiopic } from "next/font/google";
+import { Noto_Sans, Noto_Sans_Ethiopic } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AppShell } from "@/components/layout/AppShell";
 
-const inter = Inter({
+const notoSans = Noto_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
+  variable: "--font-noto-sans",
   display: "swap",
 });
 
@@ -55,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${notoSansEthiopic.variable} bg-background`}
+      className={`${notoSans.variable} ${notoSansEthiopic.variable} bg-background`}
     >
       <head>
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />

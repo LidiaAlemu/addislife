@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors - AddisLife Palette */
+  --color-background: #B3CFE5;
+  --color-foreground: #1a1a2e;
+  
+  --color-primary: #4A7FA7;
+  --color-primary-foreground: #ffffff;
+  
+  --color-secondary: #6B9AC4;
+  --color-secondary-foreground: #ffffff;
+  
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1a2e;
+  
+  --color-muted: #E8F1F8;
+  --color-muted-foreground: #5a6a7a;
+  
+  --color-accent: #3D6A8A;
+  --color-accent-foreground: #ffffff;
+  
+  --color-destructive: #DC3545;
+  --color-destructive-foreground: #ffffff;
+  
+  --color-success: #28A745;
+  --color-success-foreground: #ffffff;
+  
+  --color-warning: #FFC107;
+  --color-warning-foreground: #1a1a2e;
+  
+  --color-border: #d1e3f0;
+  --color-input: #ffffff;
+  --color-ring: #4A7FA7;
+  
+  /* Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(74, 127, 167, 0.12);
+  --shadow-card-hover: 0 4px 16px rgba(74, 127, 167, 0.18);
+  
+  /* Fonts */
+  --font-sans: "Noto Sans", "Noto Sans Ethiopic", system-ui, sans-serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* PWA safe areas */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Mobile-first touch optimizations */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
